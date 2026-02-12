@@ -1,11 +1,11 @@
 ## Overview
 
-Prayer times scraper from Moroccan government website
+Prayer times in Morocco from the official source on your terminal
 
 ## Usage
 
 ```
-usage: scrape-prayer-times.py [-h] [--out OUT] [--insecure] url
+usage: wuqut.py [-h] [--out OUT] [--insecure] url
 
 positional arguments:
   url
