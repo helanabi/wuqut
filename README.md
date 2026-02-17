@@ -26,15 +26,15 @@ options:
 
 ## Installation ##
 
-- `wuqut.py`
+- `wuqut.py`  
 The program still lives in a single Python script, install it on your system  
 anyway you prefer (notice `requirements.txt`).
 
-- `wuqut.service`
+- `wuqut.service`  
 Optional **systemd service** configuration file, which assumes that the script  
 is installed as `~/.local/bin/wuqut`, and saves data to  
 `~/.local/share/wuqut/data.csv`. You may change these paths to your liking.
 
-- `wuqut.timer`
+- `wuqut.timer`  
 Optional **systemd timer** configuration file, which runs the above service  
 daily at 06:00 AM.
