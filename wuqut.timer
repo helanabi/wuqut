@@ -2,7 +2,7 @@
 Description=wuqut database daily update
 
 [Timer]
-OnCalendar=06:00
+OnCalendar=05:00
 Persistent=true
 
 [Install]
