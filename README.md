@@ -1,40 +1,39 @@
 ## Overview
 
-Prayer times in Morocco from the official source on your terminal
-
-## Project Status
-
-This is a minimal MVP demonstrating HTML manipulation using `beautifulsoup4`.  
-The tool currenly saves prayer times for the current day to a csv file  
-defined by the option `--out` or `output.csv` by default.  
-The plan is to use this script as a baseline for a more practical prayer  
-times CLI application.
+This package will make prayer times available, up-to-date and accessible on your system directly from the Moroccan Ministry of Habous website.
 
 ## Usage
 
-```
-usage: wuqut.py [-h] [--out OUT] [--insecure] url
+![wuqut demo](demo.gif)
 
-positional arguments:
-  url
+> Additionally raw prayer times are stored locally for reuse by other programs in your user data directory  
 
-options:
-  -h, --help  show this help message and exit
-  --out OUT   output file name
-  --insecure
-```
+## Requirements
 
-## Installation ##
+Python 3.10+
 
-- `wuqut.py`  
-The program still lives in a single Python script, install it on your system  
-anyway you prefer (notice `requirements.txt`).
+## Installation
 
-- `wuqut.service`  
-Optional **systemd service** configuration file, which assumes that the script  
-is installed as `~/.local/bin/wuqut`, and saves data to  
-`~/.local/share/wuqut/data.csv`. You may change these paths to your liking.
+* `pip install git+https://github.com/helanabi/wuqut.git@0.2.0`
 
-- `wuqut.timer`  
-Optional **systemd timer** configuration file, which runs the above service  
-daily at 06:00 AM.
+> Use `pipx` for user-level installation (doesn't require root access)
+
+* Use your system job scheduler to run `wuqut-dl` daily  
+You should store data as `data.csv` in a folder named `wuqut` inside your user data directory  
+(e.g. `~/.local/share/wuqut/data.csv` on GNU/Linux)
+
+## Configuration
+
+* GNU/Linux users using systemd as their init system can use the example service/timer configuration files to auto-update data daily at 5:00 AM. For example:  
+  - `cp wuqut.service wuqut.timer ~/.config/systemd/user/`
+  - `systemctl --user enable wuqut.timer`
+
+> If you don't know what your init system is, you most likely are using systemd
+> To confirm, run: `ps c -ocmd= 1`
+
+* Change the URL parameter `ville` to match your city ID. If you don't know what your city ID is, open the URL in your browser, use the dropdown box to select your city, the URL will change to reflect your city's ID, that's what you should use as an argument to `wuqut-dl`.
+
+## LICENSE
+
+This project is licensed under the GNU General Public License v3.0 or later.  
+See the COPYING file for details.
