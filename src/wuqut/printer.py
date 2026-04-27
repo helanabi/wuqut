@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import csv
 import sys
-from pathlib import Path
+from platformdirs import user_data_path
 
-DATA = Path.home() / ".local" / "share" / "wuqut" / "data.csv"
+DATA = user_data_path("wuqut") / "data.csv"
 
 def main():
     try:
@@ -21,3 +22,6 @@ def main():
     
     for h, v in zip(headers, values):
         print(f"{h:<{label_width}}  {v:>{value_width}}")
+
+if __name__ == "__main__":
+    main()
