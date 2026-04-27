@@ -81,6 +81,3 @@ def main():
         header, data =  rows
         writer.writerow(header)
         writer.writerow(data)
-
-if __name__ == "__main__":
-    main()
