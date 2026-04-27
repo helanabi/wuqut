@@ -7,7 +7,9 @@ import sys
 import warnings
 import requests
 from datetime import datetime
+from pathlib import Path
 from bs4 import BeautifulSoup
+from platformdirs import user_data_path
 
 MONTHS = (
     "يناير",
@@ -24,10 +26,13 @@ MONTHS = (
     "دجنبر"
 )
 
+DATA_DIR = user_data_path("wuqut")
+DATA_PATH = DATA_DIR / "data.csv"
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("url")
-    parser.add_argument("--out", default="output.csv", help="output file name")
+    parser.add_argument("--out", help="output file name")
     parser.add_argument("--insecure", action="store_true")
     return parser.parse_args()
 
@@ -70,7 +75,14 @@ def main():
         sys.exit(2)
 
     today = datetime.today()
-    with open(args.out, 'w', newline='') as f:
+
+    if args.out:
+        data_path = Path(args.out)
+    else:
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
+        data_path = DATA_PATH
+
+    with data_path.open('w', newline='') as f:
         writer = csv.writer(f)
         html = response.content.decode()
         rows = extract_row(html, today.day, today.month)
