@@ -60,6 +60,24 @@ def extract_row(html, day, month, include_header=True):
             row.append(tuple((tag.text.strip() for tag in td_list)))
     return row
 
+def write_file(filename, rows):
+    if filename:
+        data_path = Path(filename)
+    else:
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
+        data_path = DATA_PATH
+
+    with data_path.open('w', newline='') as f:
+        writer = csv.writer(f)    
+
+        if len(rows) != 2:
+            print("Unexpected table structure", file=sys.stderr)
+            sys.exit(1)
+
+        header, data =  rows
+        writer.writerow(header)
+        writer.writerow(data)    
+
 def main():
     args = parse_args()
 
@@ -68,29 +86,20 @@ def main():
         response = requests.get(args.url, verify=not args.insecure)
     except requests.exceptions.RequestException as e:
         print(e, file=sys.stderr)
-        sys.exit(3)
+        sys.exit(1)
 
     if not response.ok:
         print("Server error:", response.status_code, file=sys.stderr)
-        sys.exit(2)
+        sys.exit(1)
 
     today = datetime.today()
+    html = response.content.decode()
 
-    if args.out:
-        data_path = Path(args.out)
-    else:
-        DATA_DIR.mkdir(parents=True, exist_ok=True)
-        data_path = DATA_PATH
+    try:
+        write_file(args.out, extract_row(html, today.day, today.month))
+    except OSError as e:
+        print("Failed to write data\n{e}", file=sys.stderr)
+        sys.exit(1)
 
-    with data_path.open('w', newline='') as f:
-        writer = csv.writer(f)
-        html = response.content.decode()
-        rows = extract_row(html, today.day, today.month)
-
-        if len(rows) != 2:
-            print("Unexpected table structure", file=sys.stderr)
-            sys.exit(1)
-
-        header, data =  rows
-        writer.writerow(header)
-        writer.writerow(data)
+if __name__ == "__main__":
+    main()
