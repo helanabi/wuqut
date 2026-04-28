@@ -26,7 +26,7 @@ MONTHS = (
     "دجنبر"
 )
 
-DATA_DIR = user_data_path("wuqut")
+DATA_DIR = user_data_path("wuqut", appauthor=False)
 DATA_PATH = DATA_DIR / "data.csv"
 
 def parse_args():

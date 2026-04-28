@@ -5,7 +5,7 @@ import csv
 import sys
 from platformdirs import user_data_path
 
-DATA = user_data_path("wuqut") / "data.csv"
+DATA = user_data_path("wuqut", appauthor=False) / "data.csv"
 
 def main():
     try:
