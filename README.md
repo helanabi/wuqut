@@ -16,7 +16,7 @@ Python 3.10+
 
 * `pip install git+https://github.com/helanabi/wuqut.git@0.2.0`
 
-> Use `pipx` for user-level installation (doesn't require root access)
+> Use `pipx` for user-level installation (doesn't require root access)  
 > Use your system job scheduler to run `wuqut-dl` daily
 
 ## Configuration
@@ -25,7 +25,7 @@ Python 3.10+
   - `cp wuqut.service wuqut.timer ~/.config/systemd/user/`
   - `systemctl --user enable wuqut.timer`
 
-> If you don't know what your init system is, you most likely are using systemd
+> If you don't know what your init system is, you most likely are using systemd  
 > To confirm, run: `ps c -ocmd= 1`
 
 * Change the URL parameter `ville` to match your city ID. If you don't know what your city ID is, open the URL in your browser, use the dropdown box to select your city, the URL will change to reflect your city's ID, that's what you should use as an argument to `wuqut-dl`.
