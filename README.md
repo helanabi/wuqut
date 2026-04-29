@@ -14,7 +14,7 @@ Python 3.10+
 
 ## Installation
 
-* `pip install git+https://github.com/helanabi/wuqut.git@0.2.0`
+* `pip install git+https://github.com/helanabi/wuqut.git@v0.2.0`
 
 > Use `pipx` for user-level installation (doesn't require root access)  
 > Use your system job scheduler to run `wuqut-dl` daily
