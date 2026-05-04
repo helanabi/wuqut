@@ -15,6 +15,9 @@ def parse_args():
     megrp = parser.add_mutually_exclusive_group()
     megrp.add_argument("-r", "--raw", action="store_true",
                        help="print raw values for the current day")
+    megrp.add_argument("-u", "--force-utc", action="store_true",
+                       help="assume system time is set to UTC when Daylight "
+                       "Saving Time is in effect")
     return parser.parse_args()
 
 def fprint(headers, values):
@@ -39,8 +42,13 @@ def main():
     prayers = tuple(
         Prayer(val, label) for label, val in zip(labels, info_today[1][3:])
     )
+
+    if args.force_utc:
+        for prayer in prayers:
+            prayer.undo_dst()
+
     prev, _next = Prayer.adjacent(prayers, now)
-    if not prev or abs(prev.delta(now)) > abs(_next.delta(now)):
+    if not prev or prev.delta(now) > _next.delta(now):
         print(_next.delta(now, seconds=False))
     else:
         print(prev.delta(now, seconds=False))

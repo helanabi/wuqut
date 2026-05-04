@@ -26,6 +26,8 @@ class Prayer:
 
     def delta(self, ref_time, seconds=True):
         diff = (ref_time - self.time).total_seconds()
+        negative = diff < 0
+        diff = abs(diff)
         
         if seconds:
             return diff
@@ -44,4 +46,11 @@ class Prayer:
         else:
             time_str = seconds_str
 
+        if negative:
+            time_str = '-' + time_str
+
         return self.label + ": " + time_str
+
+    def undo_dst(self):
+        """Undo Daylight Saving Time."""
+        self.time = self.time - datetime.timedelta(hours=1)
