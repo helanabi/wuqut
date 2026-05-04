@@ -24,19 +24,18 @@ class Prayer:
                                       hour=next(time),
                                       minute=next(time))
 
-    def delta(self, ref_time, human_readable=False):
+    def delta(self, ref_time, seconds=True):
         diff = (ref_time - self.time).total_seconds()
         
-        if not human_readable:
-            return abs(diff)
+        if seconds:
+            return diff
 
-        seconds = int(abs(diff))
+        seconds = int(diff)
         hours, seconds = divmod(seconds, 3600)
         minutes, seconds = divmod(seconds, 60)
-
-        hours_str = f"{hours}س"
-        minutes_str = f"{minutes}د"
-        seconds_str = f"{seconds}ث"
+        hours_str = f"{hours}h"
+        minutes_str = f"{minutes}m"
+        seconds_str = f"{seconds}s"
 
         if hours:
             time_str = hours_str + ' ' + minutes_str
@@ -45,7 +44,4 @@ class Prayer:
         else:
             time_str = seconds_str
 
-        if diff < 0:
-            return "بقي " + time_str + " على " + self.label
-        else:
-            return "مرّ " + time_str + " على " + self.label
+        return self.label + ": " + time_str

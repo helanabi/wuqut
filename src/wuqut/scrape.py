@@ -3,7 +3,6 @@
 import datetime
 import sys
 from datetime import timedelta
-from pathlib import Path
 from bs4 import BeautifulSoup
 from platformdirs import user_data_path
 
@@ -49,16 +48,14 @@ def extract_row(html, day, month, include_header=True):
     return row
 
 def get(date):
-    """Return a sequence of labels and values of a given date from times table.
+    """Return a sequence of labels and values of a given date.
 
     date - datetime.date
     """
     for file in DATA_DIR.glob("????-??-??.html"):
         file_date = datetime.date.fromisoformat(file.name.split('.')[0])
         if timedelta() <= date - file_date <= timedelta(days=29):
-            return tuple(zip(*extract_row(file.read_text(),
-                                          date.day,
-                                          date.month)))
+            return extract_row(file.read_text(), date.day, date.month)
 
     print("No data file is available for the current month", file=sys.stderr)
     sys.exit(3)
