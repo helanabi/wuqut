@@ -2,6 +2,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import argparse
+import sys
+import requests
+
 from datetime import datetime
 from . import scrape
 from .prayer import Prayer
@@ -15,9 +18,13 @@ def parse_args():
     megrp = parser.add_mutually_exclusive_group()
     megrp.add_argument("-r", "--raw", action="store_true",
                        help="print raw values for the current day")
-    megrp.add_argument("-u", "--force-utc", action="store_true",
+    megrp.add_argument("-u", "--update", action="store_true",
+                       help="update local files")
+    megrp.add_argument("-f", "--force-utc", action="store_true",
                        help="assume system time is set to UTC when Daylight "
                        "Saving Time is in effect")
+    parser.add_argument("-c", "--city-id", type=int, metavar="ID",
+                        help="Only useful with '--update'. Ignored otherwise")
     return parser.parse_args()
 
 def fprint(headers, values):
@@ -31,6 +38,14 @@ def fprint(headers, values):
 
 def main():
     args = parse_args()
+
+    if args.update:
+        if not args.city_id:
+            print("Error: Missing option: -c/--city-id", file=sys.stderr)
+            sys.exit(2)
+        scrape.update(args.city_id)
+        return
+    
     now = datetime.now()
     info_today = scrape.get(now.date())
 
@@ -48,7 +63,7 @@ def main():
             prayer.undo_dst()
 
     prev, _next = Prayer.adjacent(prayers, now)
-    if not prev or prev.delta(now) > _next.delta(now):
+    if not prev or _next and prev.delta(now) > _next.delta(now):
         print(_next.delta(now, seconds=False))
     else:
         print(prev.delta(now, seconds=False))
