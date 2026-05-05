@@ -38,15 +38,15 @@ def fprint(headers, values):
 
 def main():
     args = parse_args()
+    now = datetime.now()
 
     if args.update:
         if not args.city_id:
             print("Error: Missing option: -c/--city-id", file=sys.stderr)
             sys.exit(2)
-        scrape.update(args.city_id)
+        scrape.update(args.city_id, now.date())
         return
     
-    now = datetime.now()
     info_today = scrape.get(now.date())
 
     if args.raw:

@@ -1,10 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import datetime
 import sys
 import warnings
 import requests
-from datetime import timedelta
 from bs4 import BeautifulSoup
 from platformdirs import user_data_path
 
@@ -70,7 +68,13 @@ def get(date):
         sys.exit(4)
     return row
 
-def update(city_id):
+def update(city_id, date):
+    if DATA_FILE.exists():
+        row = extract_row(DATA_FILE.read_text(), date.day, date.month)
+        if row:
+            print("Data file is up to date. Update skipped")
+            return
+
     warnings.filterwarnings("ignore", "Unverified HTTPS request")
     try:
         res = requests.get(URL, params={"ville": city_id}, verify=False)
