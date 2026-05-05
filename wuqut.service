@@ -1,11 +1,13 @@
 [Unit]
-Description=Wuqut database updater
+Description=Wuqut updater
 
 [Service]
 Type=oneshot
 ExecStartPre=/usr/bin/sleep 60
-ExecStart=%h/.local/bin/wuqut-dl --insecure 'https://habous.gov.ma/prieres/horaire_hijri_2.php?ville=3'
+ExecStart=%h/.local/bin/wuqut -uc3
+ExecStart=%h/.local/bin/wuqut
 Restart=on-failure
 RestartSec=60s
 RestartSteps=3
 RestartMaxDelaySec=1h
+RestartPreventExitStatus=1 2 9
