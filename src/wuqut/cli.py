@@ -20,7 +20,7 @@ def parse_args():
                        help="print raw values for the current day")
     megrp.add_argument("-u", "--update", action="store_true",
                        help="update local files")
-    megrp.add_argument("-f", "--force-utc", action="store_true",
+    megrp.add_argument("-t", "--force-utc", action="store_true",
                        help="assume system time is set to UTC when Daylight "
                        "Saving Time is in effect")
     parser.add_argument("-c", "--city-id", type=int, metavar="ID",
