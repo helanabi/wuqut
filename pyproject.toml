@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "wuqut"
-version = "0.2.0"
+version = "0.3.0"
 description = "Prayer times in Morocco from the official source"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.10"
 license = "GPL-3.0-or-later"
 authors = [
     { name = "Hassan El anabi" }
@@ -20,8 +20,7 @@ dependencies = [
 ]
 
 [project.scripts]
-wuqut = "wuqut.printer:main"
-wuqut-dl = "wuqut.scraper:main"
+wuqut = "wuqut.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/helanabi/wuqut"
